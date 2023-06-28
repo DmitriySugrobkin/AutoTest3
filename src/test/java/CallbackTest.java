@@ -38,15 +38,16 @@ public class CallbackTest {
     }
 
     @Test
-    void shouldTestWithFindElementsByClassName() {
-        List<WebElement> elements = driver.findElements(By.className("input__control"));
-        elements.get(0).sendKeys("Иванов Петр");
-        elements.get(1).sendKeys("+79181234567");
-        driver.findElement(By.className("checkbox__box")).click();
-        driver.findElement(By.className("button")).click();
-        String textActual = driver.findElement(By.className("paragraph")).getText();
-        String textExpected = "Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.";
-        assertEquals(textExpected, textActual.trim());
+    void shouldTestWithFindElementsByCssSelector() {
+        driver.get("http://localhost:9999");
+        driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Петров-Иванов Иван");
+        driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+79876589854");
+        driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
+        driver.findElement(By.cssSelector("[type=button]")).click();
+        String expected = "Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.";
+        String actual = driver.findElement(By.cssSelector("[data-test-id=order-success]")).getText().trim();
+        assertEquals(expected, actual);
+
     }
 
 }
